@@ -63,7 +63,7 @@ def update():
 def balance():
     user_pubkey = pxsol.core.PubKey.base58_decode(args.args[1])
     prog_pubkey = pxsol.core.PubKey.base58_decode(info_load('pubkey'))
-    data_pubkey = prog_pubkey.derive_pda(user_pubkey.p)
+    data_pubkey = prog_pubkey.derive_pda(user_pubkey.p)[0]
     info = pxsol.rpc.get_account_info(data_pubkey.base58(), {})
     print(int.from_bytes(base64.b64decode(info['data'][0])))
 
@@ -72,7 +72,7 @@ def mint():
     user = pxsol.wallet.Wallet(pxsol.core.PriKey.base58_decode(args.prikey))
     assert user.pubkey.base58() == '6ASf5EcmmEHTgDJ4X4ZT5vT6iHVJBXPg5AN5YoTCpGWt'
     prog_pubkey = pxsol.core.PubKey.base58_decode(info_load('pubkey'))
-    data_pubkey = prog_pubkey.derive_pda(user.pubkey.p)
+    data_pubkey = prog_pubkey.derive_pda(user.pubkey.p)[0]
     rq = pxsol.core.Requisition(prog_pubkey, [], bytearray())
     rq.account.append(pxsol.core.AccountMeta(user.pubkey, 3))
     rq.account.append(pxsol.core.AccountMeta(data_pubkey, 1))
@@ -92,9 +92,9 @@ def mint():
 def transfer():
     user = pxsol.wallet.Wallet(pxsol.core.PriKey.base58_decode(args.prikey))
     prog_pubkey = pxsol.core.PubKey.base58_decode(info_load('pubkey'))
-    upda_pubkey = prog_pubkey.derive_pda(user.pubkey.p)
+    upda_pubkey = prog_pubkey.derive_pda(user.pubkey.p)[0]
     into_pubkey = pxsol.core.PubKey.base58_decode(args.args[2])
-    ipda_pubkey = prog_pubkey.derive_pda(into_pubkey.p)
+    ipda_pubkey = prog_pubkey.derive_pda(into_pubkey.p)[0]
     rq = pxsol.core.Requisition(prog_pubkey, [], bytearray())
     rq.account.append(pxsol.core.AccountMeta(user.pubkey, 3))
     rq.account.append(pxsol.core.AccountMeta(upda_pubkey, 1))
