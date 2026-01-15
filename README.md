@@ -9,6 +9,8 @@ Features provided:
 
 Note: It is not an SPL, but a hand-crafted SPL-like program for teaching purposes.
 
+**Note: This project is not affiliated with the actual Thai baht. The project was named simply because I happened to see the name while I was thinking about it.**
+
 ## Accounts
 
 You can use the following two accounts for testing. Note that this is not a hard requirement, it is just for convenience.
