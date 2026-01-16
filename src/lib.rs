@@ -19,6 +19,8 @@ pub fn process_instruction_mint(
     let account_user_pda_expect =
         solana_program::pubkey::Pubkey::find_program_address(&[&account_user.key.to_bytes()], program_id);
     assert_eq!(account_user_pda.key, &account_user_pda_expect.0);
+    // Ensure user signed.
+    assert!(account_user.is_signer);
 
     // Only Ada can mint more Thai Baht.
     assert_eq!(*account_user.key, solana_program::pubkey!("6ASf5EcmmEHTgDJ4X4ZT5vT6iHVJBXPg5AN5YoTCpGWt"));
@@ -72,6 +74,8 @@ pub fn process_instruction_transfer(
     let account_into_pda_expect =
         solana_program::pubkey::Pubkey::find_program_address(&[&account_into.key.to_bytes()], program_id);
     assert_eq!(account_into_pda.key, &account_into_pda_expect.0);
+    // Ensure user signed.
+    assert!(account_user.is_signer);
 
     // Data account is not initialized. Create an account and write data into it.
     if **account_into_pda.try_borrow_lamports().unwrap() == 0 {
